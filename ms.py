@@ -1137,7 +1137,7 @@ def register_handlers():
     @bot.message_handler(
         func=lambda msg: msg.text
         and not msg.text.startswith("/")
-        and msg.text not in ["🏠 Bot စတင်ရန်", "🚀 Start Scan", "🛑 Stop Scan", "💎 Success Codes", "🆘 Help"]
+        and msg.text not in ["🏠 Main Menu", "🚀 Start Scan", "🛑 Stop Scan", "📋 Success Codes", "🆘 Help"]
     )
     async def smart_input(message):
         text = message.text.strip()
