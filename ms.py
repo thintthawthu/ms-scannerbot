@@ -234,6 +234,7 @@ def load_hits():
 # ════════════════════════════════════════════════════════════════
 def _main_keyboard():
     kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+    kb.add(KeyboardButton("🏠 Bot စတင်ရန်"))   # 👈 အရှည်လိုက် (row တစ်ခုလုံး)
     kb.add(KeyboardButton("🚀 Start Scan"), KeyboardButton("🛑 Stop Scan"))
     kb.add(KeyboardButton("💎 Success Codes"), KeyboardButton("🆘 Help"))
     return kb
@@ -708,8 +709,12 @@ async def run_bruteforce(mode, chat_id, session_url, scan_id, message=None, prog
 def register_handlers():
 
     # ────────────────────────────────────────────────────────────
-    #  REPLY KEYBOARD BUTTON HANDLERS (၄ ခု)
+    #  REPLY KEYBOARD BUTTON HANDLERS
     # ────────────────────────────────────────────────────────────
+    @bot.message_handler(func=lambda msg: msg.text == "🏠 Bot စတင်ရန်")
+    async def btn_bot_start(message):
+        await cmd_start(message)
+
     @bot.message_handler(func=lambda msg: msg.text == "🚀 Start Scan")
     async def btn_start_scan(message):
         chat_id = message.chat.id
@@ -777,7 +782,6 @@ def register_handlers():
         if len(text) > 4000:
             text = text[:4000] + "\n\n... (truncated)"
 
-        # ⚠️ parse_mode မသုံး — plain text
         await bot.send_message(chat_id, text, reply_markup=_main_keyboard())
 
     @bot.message_handler(func=lambda msg: msg.text == "🆘 Help")
@@ -957,7 +961,6 @@ def register_handlers():
         if len(text) > 4000:
             text = text[:4000] + "\n\n... (truncated)"
 
-        # ⚠️ parse_mode မသုံး — plain text
         await bot.send_message(chat_id, text)
 
     @bot.message_handler(commands=['recheck'])
@@ -1134,7 +1137,7 @@ def register_handlers():
     @bot.message_handler(
         func=lambda msg: msg.text
         and not msg.text.startswith("/")
-        and msg.text not in ["🚀 Start Scan", "🛑 Stop Scan", "💎 Success Codes", "🆘 Help"]
+        and msg.text not in ["🏠 Bot စတင်ရန်", "🚀 Start Scan", "🛑 Stop Scan", "💎 Success Codes", "🆘 Help"]
     )
     async def smart_input(message):
         text = message.text.strip()
