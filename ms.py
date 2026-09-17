@@ -19,6 +19,8 @@ ADMIN_ID = None
 
 USE_KEY_SYSTEM = False  # False = Key-Free, True = Key Required
 
+DEVELOPER_URL = "https://t.me/andrew_ms_7"
+
 
 def prompt_config():
     global BOT_TOKEN, ADMIN_ID
@@ -234,9 +236,9 @@ def load_hits():
 # ════════════════════════════════════════════════════════════════
 def _main_keyboard():
     kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
-    kb.add(KeyboardButton("🏠 Bot စတင်ရန်"))   # 👈 အရှည်လိုက် (row တစ်ခုလုံး)
     kb.add(KeyboardButton("🚀 Start Scan"), KeyboardButton("🛑 Stop Scan"))
-    kb.add(KeyboardButton("💎 Success Codes"), KeyboardButton("🆘 Help"))
+    kb.add(KeyboardButton("💎 Success Codes"), KeyboardButton("👨‍💻 Developer"))
+    kb.add(KeyboardButton("🏠 Main Menu"), KeyboardButton("🆘 Help"))
     return kb
 
 
@@ -711,10 +713,6 @@ def register_handlers():
     # ────────────────────────────────────────────────────────────
     #  REPLY KEYBOARD BUTTON HANDLERS
     # ────────────────────────────────────────────────────────────
-    @bot.message_handler(func=lambda msg: msg.text == "🏠 Main Menu")
-    async def btn_bot_start(message):
-        await cmd_start(message)
-
     @bot.message_handler(func=lambda msg: msg.text == "🚀 Start Scan")
     async def btn_start_scan(message):
         chat_id = message.chat.id
@@ -783,6 +781,23 @@ def register_handlers():
             text = text[:4000] + "\n\n... (truncated)"
 
         await bot.send_message(chat_id, text, reply_markup=_main_keyboard())
+
+    @bot.message_handler(func=lambda msg: msg.text == "👨‍💻 Developer")
+    async def btn_developer(message):
+        chat_id = message.chat.id
+        text = (
+            "👨‍💻 Developer\n\n"
+            "MS TEAM Bot ကို ဖန်တီးသူ:\n\n"
+            f"🔗 {DEVELOPER_URL}\n\n"
+            "အောက်က ခလုတ်ကို နှိပ်ပြီး ဆက်သွယ်နိုင်ပါတယ်။"
+        )
+        markup = InlineKeyboardMarkup()
+        markup.add(InlineKeyboardButton("💬 Contact Developer", url=DEVELOPER_URL))
+        await bot.send_message(chat_id, text, reply_markup=markup)
+
+    @bot.message_handler(func=lambda msg: msg.text == "🏠 Main Menu")
+    async def btn_main_menu(message):
+        await cmd_start(message)
 
     @bot.message_handler(func=lambda msg: msg.text == "🆘 Help")
     async def btn_help(message):
@@ -1137,7 +1152,11 @@ def register_handlers():
     @bot.message_handler(
         func=lambda msg: msg.text
         and not msg.text.startswith("/")
-        and msg.text not in ["🏠 Main Menu", "🚀 Start Scan", "🛑 Stop Scan", "📋 Success Codes", "🆘 Help"]
+        and msg.text not in [
+            "🚀 Start Scan", "🛑 Stop Scan",
+            "💎 Success Codes", "👨‍💻 Developer",
+            "🏠 Main Menu", "🆘 Help",
+        ]
     )
     async def smart_input(message):
         text = message.text.strip()
