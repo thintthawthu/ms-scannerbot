@@ -237,7 +237,7 @@ def load_hits():
 def _main_keyboard():
     kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
     kb.add(KeyboardButton("🚀 Start Scan"), KeyboardButton("🛑 Stop Scan"))
-    kb.add(KeyboardButton("💎 Success Codes"), KeyboardButton("👨‍💻 Developer"))
+    kb.add(KeyboardButton("📋 Success Codes"), KeyboardButton("👨‍💻 Developer"))
     kb.add(KeyboardButton("🏠 Main Menu"), KeyboardButton("🆘 Help"))
     return kb
 
@@ -754,7 +754,7 @@ def register_handlers():
         else:
             await bot.send_message(chat_id, "⚪ ရပ်ရန် scan မရှိပါ", reply_markup=_main_keyboard())
 
-    @bot.message_handler(func=lambda msg: msg.text == "💎 Success Codes")
+    @bot.message_handler(func=lambda msg: msg.text == "📋 Success Codes")
     async def btn_success_codes(message):
         chat_id = message.chat.id
 
