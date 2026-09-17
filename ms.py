@@ -711,7 +711,7 @@ def register_handlers():
     # ────────────────────────────────────────────────────────────
     #  REPLY KEYBOARD BUTTON HANDLERS
     # ────────────────────────────────────────────────────────────
-    @bot.message_handler(func=lambda msg: msg.text == "🏠 Bot စတင်ရန်")
+    @bot.message_handler(func=lambda msg: msg.text == "🏠 Main Menu")
     async def btn_bot_start(message):
         await cmd_start(message)
 
